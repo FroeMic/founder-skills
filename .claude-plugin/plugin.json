@@ -1,0 +1,18 @@
+{
+  "name": "founder-skills",
+  "description": "Founder skills for vertical software, engineering workflow, productivity, and go-to-market execution.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Founder Skills contributors"
+  },
+  "homepage": "https://github.com/vertical/founder-skills",
+  "repository": "https://github.com/vertical/founder-skills",
+  "license": "MIT",
+  "skills": [
+    "./go-to-market/setup-gtm-skills",
+    "./go-to-market/product-marketing",
+    "./go-to-market/content-strategy",
+    "./go-to-market/marketing-ideas",
+    "./go-to-market/social-content"
+  ]
+}
