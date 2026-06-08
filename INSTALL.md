@@ -6,10 +6,10 @@ root of the project where you want to use the skills.
 ```text
 Install the Founder Skills repository into this project.
 
-Source: vertical/founder-skills
+Source: FroeMic/founder-skills
 
 Requirements:
-- Prefer `npx skills@latest add vertical/founder-skills` if the skills
+- Prefer `npx skills@latest add FroeMic/founder-skills` if the skills
   installer is available.
 - If the installer is unavailable, clone the source repo to a temporary
   directory and copy the skill folders into `.agents/skills/`, preserving their

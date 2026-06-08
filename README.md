@@ -11,7 +11,7 @@ specific founder workflow comes up.
 Install the skills into a project with your agent or with a skills installer:
 
 ```bash
-npx skills@latest add vertical/founder-skills
+npx skills@latest add FroeMic/founder-skills
 ```
 
 Then run the setup skill for the area you want to use first:

@@ -5,8 +5,8 @@
   "author": {
     "name": "Founder Skills contributors"
   },
-  "homepage": "https://github.com/vertical/founder-skills",
-  "repository": "https://github.com/vertical/founder-skills",
+  "homepage": "https://github.com/FroeMic/founder-skills",
+  "repository": "https://github.com/FroeMic/founder-skills",
   "license": "MIT",
   "skills": [
     "./go-to-market/setup-gtm-skills",
