@@ -94,6 +94,21 @@ system.
 `competitor-research` is copied from the upstream `competitor-profiling` skill,
 with output paths patched to `.vertical/gtm/competitor-profiles/`.
 
+## Starter Engineering Set
+
+The first engineering skills focus on project language and decision capture:
+
+- [`setup-engineering-skills`](engineering/setup-engineering-skills/SKILL.md)
+  initializes `.vertical/engineering/` conventions for domain docs and agent
+  configuration.
+- [`grill-with-docs`](engineering/grill-with-docs/SKILL.md) stress-tests a plan
+  against the codebase, sharpens domain language, and updates
+  `.vertical/engineering/CONTEXT.md` and ADRs as decisions crystallize.
+
+These are copied from
+[`mattpocock/skills`](https://github.com/mattpocock/skills), with persistence
+patched to `.vertical/engineering/`.
+
 ## Installation
 
 See [`INSTALL.md`](INSTALL.md) for an agent prompt that Claude, Cursor, Codex, or

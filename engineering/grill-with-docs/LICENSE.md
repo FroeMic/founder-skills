@@ -1,6 +1,11 @@
+This skill is copied and adapted from Skills by Matt Pocock:
+https://github.com/mattpocock/skills
+
+Original upstream path: `skills/engineering/grill-with-docs/`
+
 MIT License
 
-Copyright (c) 2026 Founder Skills contributors
+Copyright (c) 2026 Matt Pocock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,10 +24,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Portions of the GTM starter workflow are copied and adapted from Marketing
-Skills by Corey Haines, Copyright (c) 2025 Corey Haines, licensed under the MIT
-License.
-
-Portions of the engineering starter workflow are copied and adapted from Skills
-by Matt Pocock, Copyright (c) 2026 Matt Pocock, licensed under the MIT License.
