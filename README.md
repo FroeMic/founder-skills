@@ -72,6 +72,15 @@ The first usable skills focus on a simple building-in-public content loop:
   `.vertical/gtm` workspace in the project using the skills.
 - [`product-marketing`](go-to-market/product-marketing/SKILL.md) captures the
   product, audience, positioning, proof, and voice.
+- [`customer-research`](go-to-market/customer-research/SKILL.md) mines customer
+  interviews, reviews, forums, and other sources for voice-of-customer and JTBD
+  insights.
+- [`copywriting`](go-to-market/copywriting/SKILL.md) writes homepage, landing
+  page, pricing page, feature page, and hero/CTA copy from the positioning
+  context.
+- [`cro`](go-to-market/cro/SKILL.md) audits and improves marketing pages for
+  conversion rate, including landing pages, homepages, pricing pages, and
+  feature pages.
 - [`competitor-research`](go-to-market/competitor-research/SKILL.md) profiles
   competitors from URLs and stores raw research plus synthesized profiles.
 - [`content-strategy`](go-to-market/content-strategy/SKILL.md) turns context and
@@ -91,8 +100,10 @@ positioning, decide what to publish, generate ideas, store selected backlog
 items, and draft social posts without importing a full marketing operating
 system.
 
-`competitor-research` is copied from the upstream `competitor-profiling` skill,
-with output paths patched to `.vertical/gtm/competitor-profiles/`.
+`customer-research`, `copywriting`, and `cro` are copied from the same upstream
+repo for landing page and positioning workflows. `competitor-research` is copied
+from the upstream `competitor-profiling` skill, with output paths patched to
+`.vertical/gtm/competitor-profiles/`.
 
 ## Starter Engineering Set
 
