@@ -7,9 +7,20 @@ semantics, read [Files And Attachments](./files-and-attachments.md).
 
 ## Model
 
-Vertical MCP is a remote HTTP MCP surface at `/mcp`. It is OAuth-protected and
-scope-gated. The MCP server validates bearer access tokens whose audience is
-the MCP resource.
+Vertical MCP is a remote HTTP MCP surface. The production MCP endpoint is:
+
+```text
+https://mcp.startwithvertical.com/mcp
+```
+
+It is OAuth-protected and scope-gated. The MCP server validates bearer access
+tokens whose audience is the MCP resource.
+
+The production OAuth authorization server is:
+
+```text
+https://auth.startwithvertical.com
+```
 
 Do not copy normal API tokens into MCP config unless Vertical explicitly
 documents that mode. Prefer the OAuth flow offered by the MCP client.
@@ -22,14 +33,19 @@ documents that mode. Prefer the OAuth flow offered by the MCP client.
 https://startwithvertical.com/create
 ```
 
-2. Add the Vertical MCP URL from the user's Vertical account to the coding
-   agent's MCP configuration.
+2. Add the production Vertical MCP URL to the coding agent's MCP configuration,
+   unless the user explicitly wants local or staging:
+
+```text
+https://mcp.startwithvertical.com/mcp
+```
+
 3. Complete the OAuth flow in the MCP client.
 4. Probe the connection with `vertical_auth_probe` if the client exposes tools
    directly.
 
-Local development commonly uses an MCP service on port `3217`, but use the URL
-shown by the user's Vertical account or local stack.
+Local development commonly uses an MCP service on port `3217`; staging and
+local stack URLs should be used only when the user asks for that environment.
 
 ## Scopes
 
@@ -60,8 +76,8 @@ Dynamic Client Registration when the Vertical auth service advertises a
 The expected discovery flow is:
 
 ```text
-GET /.well-known/oauth-protected-resource/mcp
-GET /.well-known/oauth-authorization-server
+GET https://mcp.startwithvertical.com/.well-known/oauth-protected-resource/mcp
+GET <authorization server from resource metadata>/.well-known/oauth-authorization-server
 POST /oauth/register
 authorization_code + PKCE OAuth flow
 ```

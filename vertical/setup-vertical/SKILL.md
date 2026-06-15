@@ -58,7 +58,7 @@ Last updated:
 
 Preferred surface: MCP
 API URL: https://startwithvertical.com
-MCP URL:
+MCP URL: https://mcp.startwithvertical.com/mcp
 CLI available: unknown
 
 ## Current Context
@@ -119,7 +119,13 @@ Rules:
 
 Use this as the default setup when the coding agent supports remote HTTP MCP.
 
-- Connect the Vertical MCP URL from the user's Vertical account.
+- Connect the Vertical production MCP URL unless the user is working against a
+  local or staging stack:
+
+```text
+https://mcp.startwithvertical.com/mcp
+```
+
 - Let the client complete the OAuth flow.
 - Default practical scopes are `vertical:read vertical:write vertical:files`.
 - Request `vertical:admin` only for explicit workspace/security/admin work.
@@ -216,6 +222,25 @@ For Vertical, the important setup is the access surface and auth:
 - Prefer MCP when the agent supports remote MCP.
 - If using MCP, add the Vertical MCP URL to the agent's MCP configuration and
   complete OAuth.
+- For Codex, a typical production setup is:
+
+```sh
+codex mcp add vertical --url https://mcp.startwithvertical.com/mcp
+codex mcp login vertical
+```
+
+- For Cursor, add a remote MCP server with:
+
+```json
+{
+  "mcpServers": {
+    "vertical": {
+      "url": "https://mcp.startwithvertical.com/mcp"
+    }
+  }
+}
+```
+
 - If using API, set `VERTICAL_API_URL` and `VERTICAL_API_TOKEN`.
 - If using CLI, first confirm early-access CLI availability, then make sure
   `vertical` is on `PATH` and auth works.
