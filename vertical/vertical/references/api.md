@@ -11,7 +11,7 @@ semantics, read [Files And Attachments](./files-and-attachments.md).
 Production base URL:
 
 ```text
-https://startwithvertical.com
+https://api.startwithvertical.com
 ```
 
 The API prefix is:
@@ -213,3 +213,17 @@ GET /api/v1/files/inline?ownerType=<type>&ownerId=<id>
 
 Browser file routes use browser session cookies and are separate from the bearer
 token API surface.
+
+## Related Production Origins
+
+Use API URLs only for integrations. Human-facing links belong on the web app,
+and browser-rendered file links belong on the uploads host:
+
+```text
+Web app: https://startwithvertical.com
+API: https://api.startwithvertical.com
+Auth: https://auth.startwithvertical.com
+MCP: https://mcp.startwithvertical.com/mcp
+Uploads: https://uploads.startwithvertical.com
+Public assets: https://public.startwithvertical.com
+```

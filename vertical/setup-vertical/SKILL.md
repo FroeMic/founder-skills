@@ -57,7 +57,7 @@ Last updated:
 ## Access
 
 Preferred surface: MCP
-API URL: https://startwithvertical.com
+API URL: https://api.startwithvertical.com
 MCP URL: https://mcp.startwithvertical.com/mcp
 CLI available: unknown
 
@@ -112,6 +112,20 @@ Rules:
   mark the selected current context.
 - If a later lookup shows stale IDs, renamed records, or missing context, update
   this file immediately.
+
+## Production URLs
+
+Use these production origins unless the user explicitly asks for local or
+staging:
+
+```text
+Web app: https://startwithvertical.com
+API: https://api.startwithvertical.com
+Auth: https://auth.startwithvertical.com
+MCP: https://mcp.startwithvertical.com/mcp
+Uploads: https://uploads.startwithvertical.com
+Public assets: https://public.startwithvertical.com
+```
 
 ## Auth Options
 
@@ -182,7 +196,7 @@ Use this when implementing integrations, debugging exact HTTP behavior, or when
 MCP is not available.
 
 ```sh
-export VERTICAL_API_URL="https://startwithvertical.com"
+export VERTICAL_API_URL="https://api.startwithvertical.com"
 export VERTICAL_API_TOKEN="<token>"
 curl -H "Authorization: Bearer $VERTICAL_API_TOKEN" \
   "$VERTICAL_API_URL/api/v1/auth/probe"
@@ -196,7 +210,7 @@ Vertical GitHub repo or already has a working `vertical` binary installed.
 Use this when the user has a workspace API token or workspace-agent API token.
 
 ```sh
-export VERTICAL_API_URL="https://startwithvertical.com"
+export VERTICAL_API_URL="https://api.startwithvertical.com"
 export VERTICAL_API_TOKEN="<token>"
 vertical auth probe --json
 vertical doctor --json
@@ -208,6 +222,8 @@ The CLI is early access. Use this only when the installed `vertical` CLI
 supports OAuth login.
 
 ```sh
+export VERTICAL_API_URL="https://api.startwithvertical.com"
+export VERTICAL_AUTH_URL="https://auth.startwithvertical.com"
 vertical auth login
 vertical auth status --json
 vertical auth refresh --json

@@ -26,8 +26,16 @@ vertical commands --json
 For API-token auth:
 
 ```sh
-export VERTICAL_API_URL="https://startwithvertical.com"
+export VERTICAL_API_URL="https://api.startwithvertical.com"
 export VERTICAL_API_TOKEN="<token>"
+```
+
+For CLI OAuth auth:
+
+```sh
+export VERTICAL_API_URL="https://api.startwithvertical.com"
+export VERTICAL_AUTH_URL="https://auth.startwithvertical.com"
+vertical auth login
 ```
 
 Use a local URL only when the user explicitly says they are working against a

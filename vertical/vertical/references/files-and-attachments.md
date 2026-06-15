@@ -22,7 +22,7 @@ and verify through Vertical before claiming a file is visible.
 For production API-token auth:
 
 ```sh
-export VERTICAL_API_URL="https://startwithvertical.com"
+export VERTICAL_API_URL="https://api.startwithvertical.com"
 export VERTICAL_API_TOKEN="<token>"
 vertical auth probe --json
 ```
@@ -99,6 +99,16 @@ vertical attachments list --owner comment:cmt_123 --json
 ```
 
 ## Inline Files In Markdown
+
+Production inline markdown file URLs should use the uploads host:
+
+```text
+https://uploads.startwithvertical.com/<file_id>/content
+```
+
+Do not persist bearer-token API download URLs such as
+`https://api.startwithvertical.com/api/v1/files/<file_id>/content` inside
+markdown that humans will read in the browser.
 
 `files inline upload` uploads the file and returns markdown. The durable inline
 reference is created when that markdown is saved into the owner field.
