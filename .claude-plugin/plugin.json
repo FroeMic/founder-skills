@@ -9,6 +9,8 @@
   "repository": "https://github.com/FroeMic/founder-skills",
   "license": "MIT",
   "skills": [
+    "./vertical/setup-vertical",
+    "./vertical/vertical",
     "./engineering/setup-engineering-skills",
     "./engineering/grill-with-docs",
     "./go-to-market/setup-gtm-skills",
