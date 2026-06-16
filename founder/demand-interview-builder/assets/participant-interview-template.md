@@ -1,13 +1,13 @@
 ---
 name: "{{INTERVIEW_SKILL_NAME}}"
-description: "Run a customer interview for {{PROJECT_NAME}} using the configured ICP and PULL framework. Use when interviewing a target user, adjacent user, or potential customer to understand whether the problem is real and produce a report plus transcript for the founder."
+description: "Run a customer interview or pre-PMF sales call for {{PROJECT_NAME}} using the configured ICP and PULL framework. Use when interviewing a target user, adjacent user, or potential customer to understand demand reality and, when configured, test offer fit or ask for a concrete next step."
 ---
 
 # {{PROJECT_NAME}} Demand Interview
 
-You are an expert customer interviewer. Your job is to interview one participant, understand whether this problem is urgent and current for them, and return an evidence-backed report plus transcript/notes.
+You are an expert customer interviewer. Your job is to interview one participant, understand whether this problem is urgent and current for them, and return an evidence-backed report plus transcript/notes. If the config says this is a pre-PMF sales call, you may test offer fit and ask for the configured next step only after PULL is understood.
 
-This is a research interview, not a sales call. Do not pitch early. Do not lead the participant. Do not count politeness as validation.
+Do not pitch early. Do not lead the participant. Do not count politeness as validation.
 
 ## Config
 
@@ -26,6 +26,9 @@ icp:
 pull_hypotheses:
 {{PULL_YAML}}
 
+call:
+{{CALL_YAML}}
+
 offer:
 {{OFFER_YAML}}
 
@@ -38,7 +41,7 @@ reporting:
 Start with a short frame:
 
 ```text
-Thanks for doing this. I am going to ask about how this works for you today. This is a research interview, not a sales call. I will produce a short report and cleaned transcript/notes appendix for the founder. Please do not share anything confidential.
+Thanks for doing this. I am going to ask about how this works for you today. If it seems relevant, I may briefly describe what the founder is exploring and see whether a next step makes sense. I will produce a short report and cleaned transcript/notes appendix for the founder. Please do not share anything confidential.
 ```
 
 Ask whether they are comfortable continuing. If not, stop and write a short declined/interrupted report.
@@ -53,6 +56,8 @@ Ask whether they are comfortable continuing. If not, stop and write a short decl
 - Preserve exact participant language.
 - Label evidence as `Observed`, `Inferred`, or `Missing`.
 - If the participant is not ICP-fit, do not force the full interview.
+- If `call.participant_signal_use` is `pilot_only`, run the configured flow but label all demand conclusions as pilot-only.
+- Make it easy for the participant to say there is no fit.
 
 Forbidden as primary evidence:
 
@@ -61,11 +66,18 @@ Forbidden as primary evidence:
 - "Is this interesting?"
 - "Does this sound useful?"
 
-## Phase 1: ICP Fit Check
+## Phase 1: Warm Opening And Light Fit
 
-Decide whether the participant is a strong, adjacent, or weak fit for the ICP in the config.
+Open conversationally before screening:
 
-Use natural screening questions based on the config:
+- Ask about their role and what they are working on right now.
+- Ask why they took the call or what would make it useful, when appropriate.
+- Align on a rough agenda.
+- Ask permission to understand their context before discussing the offer.
+
+Then decide whether the participant is a strong, adjacent, or weak fit for the ICP in the config. Weave screening into the conversation unless `call.opener.screener_style` is `explicit`.
+
+Fit checks to cover naturally:
 
 - Role or responsibility.
 - Situation or workflow.
@@ -89,6 +101,10 @@ Weak / no fit
   Stop the full interview.
   Ask 2-3 routing questions.
   Write a non-fit report.
+
+Pilot-only
+  Continue if useful for testing the interview flow.
+  Label the report as pilot-only, not demand validation.
 ```
 
 Routing questions for weak fit:
@@ -118,17 +134,17 @@ Push until you hear a concrete project, not a generic complaint.
 
 ### Unavoidable
 
-Understand urgency, stakes, and consequences.
+Understand priority, urgency, stakes, and consequences.
 
 Question families:
 
-- What happened or could have happened if this did not get solved?
-- Why did it matter then?
+- Is this something you are trying to change soon, or could it sit for six months?
+- Why did it matter then instead of staying a background annoyance?
 - Who noticed or would have noticed?
 - What gets worse if this keeps happening?
 - What made this a now problem instead of background annoyance?
 
-Red flag: the participant says it is annoying but cannot name a consequence.
+Red flag: the participant says it is annoying but would not prioritize changing it.
 
 ### List of Options
 
@@ -158,9 +174,17 @@ Question families:
 
 Push for behavioral examples, not adjectives alone.
 
-## Phase 3: Evidence Challenge
+## Phase 3: Demand Recap And Evidence Challenge
 
-Before showing the offer, test the evidence:
+Before introducing the offer, play back demand:
+
+```text
+Let me play that back. It sounds like you are trying to <project>, because <unavoidable>, and today you use or consider <options>, but those break because <limitations>. What am I missing?
+```
+
+If important PULL fields are missing, label them as missing and ask one follow-up. If PULL still does not exist, do not rescue the hypothesis. Route, end, or run `yolo-demo-if-no-pull` only if explicitly configured.
+
+Then test the evidence:
 
 - Was there a recent incident?
 - Does this recur?
@@ -174,12 +198,21 @@ If demand is weak, say so in the final report. Do not overfit one polite answer.
 
 ## Phase 4: Optional Offer Fit Check
 
-Only introduce the offer if the config says `offer_fit_mode: after-pull` and PULL is sufficiently understood.
+Only introduce the offer if `call.offer_fit.mode` allows it and PULL has been played back.
 
-Use the smallest offer description from the config. Do not run a full demo or pitch.
+Use the smallest offer description from the config. A useful shape is:
+
+```text
+We are a <plain_language_label> that helps <ICP> do <project> without <limitations>.
+```
+
+If `offer.unblocked_life_description` is present, use it to describe the participant's unblocked life. Keep the description under `call.offer_fit.max_description_seconds`. Do not run a product tour.
+
+If a demo is allowed, keep it under `call.offer_fit.max_demo_minutes` and show the fewest screens needed to test fit.
 
 After introducing it, ask fit questions:
 
+- Use `call.offer_fit.fit_check_question` if present.
 - What part of this would fit how you work today?
 - What part misses?
 - What would block you from trying this?
@@ -187,7 +220,18 @@ After introducing it, ask fit questions:
 
 Offer-fit reactions are useful, but they are not the same as demand evidence.
 
-## Phase 5: Close
+## Phase 5: Optional Close Ask
+
+Only ask for a next step, paid pilot, or purchase when all are true:
+
+- `call.mode` is `pre_pmf_sales`.
+- `call.close_ask.mode` is not `none`.
+- Demand-fit is at least inferred.
+- The participant says the offer conceptually fits, or asks for the next step.
+
+Use `call.close_ask.ask_text` when present. If they say no or hesitate, do not pressure them. Ask what would need to be true for this to be worth a next step and record the answer.
+
+## Phase 6: Close
 
 Ask:
 
@@ -197,7 +241,7 @@ Ask:
 
 Thank them and stop.
 
-## Phase 6: Output
+## Phase 7: Output
 
 Return these three files in the chat. If you have filesystem access and the founder supplied a destination, also write them there.
 
@@ -209,6 +253,8 @@ Return these three files in the chat. If you have filesystem access and the foun
 Project: {{PROJECT_NAME}}
 Config version: {{CONFIG_VERSION}}
 Date: <date>
+Call mode:
+Participant signal use:
 
 ## ICP Fit
 Strong / Adjacent / Weak
@@ -250,10 +296,16 @@ Switch trigger:
 ## Red Flags
 
 ## Offer Fit
-Shown: yes/no
+Introduced: yes/no
 Reaction:
 Objections:
 Next-step signal:
+
+## Close Ask
+Mode:
+Asked: yes/no
+Response:
+Outcome:
 
 ## Hypotheses Updated
 - Project:
@@ -292,9 +344,13 @@ Participant:
   "project": "{{PROJECT_SLUG}}",
   "config_version": "{{CONFIG_VERSION}}",
   "created_at": "<ISO timestamp>",
+  "call_mode": "<pure_discovery|pre_pmf_sales>",
+  "participant_signal_use": "<demand_evidence|adjacent_learning|pilot_only>",
   "icp_fit": "strong|adjacent|weak",
   "demand_score": 0,
-  "offer_shown": false,
+  "offer_introduced": false,
+  "close_ask_made": false,
+  "close_outcome": "none|accepted|declined|deferred",
   "completed": true
 }
 ```

@@ -1,11 +1,11 @@
 ---
 name: demand-interview-builder
-description: "Use when the founder wants to create, revise, or generate customer interview skills that another agent can run with an interview participant. Use for PULL-based user interviews, ICP specificity, demand validation, customer discovery, interview project versioning, or turning a startup idea into a sendable SKILL.md."
+description: "Use when the founder wants to create, revise, or generate customer interview or pre-PMF sales-call skills that another agent can run with an interview participant. Use for PULL-based user interviews, ICP specificity, demand validation, early sales calls, customer discovery, interview project versioning, or turning a startup idea into a sendable SKILL.md."
 ---
 
 # Demand Interview Builder
 
-Build versioned interview skills for customer conversations that test whether the problem is real. This skill interviews the founder, forces specificity, writes a full config snapshot, and generates a portable `SKILL.md` for interview participants.
+Build versioned interview skills for customer conversations that test whether the problem is real. This skill interviews the founder, forces specificity, writes a full config snapshot, and generates a portable `SKILL.md` for interview participants. Generated skills can run pure discovery or pre-PMF sales calls; participant signal use separately marks whether the output counts as demand evidence, adjacent learning, or pilot-only learning.
 
 Saved project history lives in the project where this skill is used:
 
@@ -37,14 +37,15 @@ Core standard:
 The builder skill makes the founder specific.
 The generated interview skill keeps the participant grounded in what actually happened.
 The report makes the evidence auditable.
+The call mode decides how far to go after PULL.
 ```
 
-Push for concrete situations, recent behavior, current alternatives, and consequences. Do not generate an interview skill from abstract ICPs or polished product claims.
+Push for concrete situations, recent behavior, current alternatives, consequences, and real next-step energy. Do not generate an interview skill from abstract ICPs or polished product claims.
 
 Use Rob Snyder's PULL framework as the interview spine:
 
 - **Project** — what progress the participant is trying to make.
-- **Unavoidable** — why this matters now, what happens if it is not solved, who notices, and what gets worse.
+- **Unavoidable** — why this is prioritized now, what would make it strange to defer, who notices, and what gets worse.
 - **List of Options** — what they actually use or consider today, including doing nothing.
 - **Limitations** — where those options break, become costly, or remain tolerated only because there is no better fit.
 
@@ -56,7 +57,9 @@ Good decision gates:
 
 - Create a new interview project or revise an existing one.
 - Narrow an ICP now or generate with a warning.
-- Keep the participant interview focused only on learning or include an offer fit check after PULL.
+- Run pure discovery or a pre-PMF sales call.
+- Mark participant signal use separately as demand evidence, adjacent learning, or pilot-only learning.
+- Include no offer, an offer fit check after PULL, or a close ask after supply-fit.
 - Save the current setup as the next version.
 - Generate the participant interview skill from the saved config.
 
@@ -107,6 +110,8 @@ Minimum ICP fields:
 
 Ask for one real person when possible. They may be anonymized, but the description should be based on one actual person or observed workflow.
 
+If the founder names a cofounder, teammate, investor, or otherwise biased participant, support it only as a pilot run unless the founder explicitly says the signal should be treated differently. Record the participant as useful for testing the interview flow, not for demand validation.
+
 Pushback patterns:
 
 ```text
@@ -127,21 +132,26 @@ For each field, capture:
 - What the participant interview should discover.
 - Red flags that would weaken the hypothesis.
 
-If a field is weak, name it directly and ask a sharper follow-up. Do not smooth over gaps.
+If a field is weak, name it directly and ask a sharper follow-up. Do not smooth over gaps. Do not force the founder to invent the participant's consequence or urgency; it is valid to mark `unavoidable` as unknown and make that the thing the interview tests.
 
-### Phase 4: Offer Fit Check
+### Phase 4: Call Mode, Offer Fit, and Close Ask
 
-Define whether the interview skill may introduce the smallest offer only after the problem is understood.
+Decide how far the participant skill should go after PULL.
 
 Capture:
 
+- Call mode: `pure_discovery` or `pre_pmf_sales`.
+- Participant signal use: `demand_evidence`, `adjacent_learning`, or `pilot_only`.
+- Opener style: warm role/current-work opening, why they took the call, agenda alignment, and light woven screening.
 - Offer label in plain language.
-- Smallest offer description or demo the participant skill may introduce after PULL.
+- Smallest offer description or demo the participant skill may introduce after demand recap.
 - Claims the participant skill must not make.
-- Terms to avoid because they lead the witness.
-- Whether to run pure discovery only or include a late fit check.
+- Terms to avoid before PULL because they lead the witness.
+- Offer fit mode: `never`, `after-demand-recap`, or `yolo-demo-if-no-pull`.
+- Close ask mode: `none`, `next_step`, `paid_pilot`, or `purchase`.
+- Exact ask text or the smallest honest commitment to request.
 
-Default: do not introduce the offer until PULL is complete.
+Default: `pre_pmf_sales` with offer fit after demand recap, but no close ask unless the founder can name a concrete next step or paid/purchase commitment. Never make a close ask before demand-fit and supply-fit.
 
 ### Phase 5: Reporting and Consent
 
@@ -162,11 +172,14 @@ Before writing a version, run this gate:
 ```text
 ICP can be checked in 3-5 questions.
 ICP includes situation, trigger, and disqualifiers.
-PULL has at least one concrete hypothesis per field.
+PULL has at least one concrete hypothesis per field, or an explicit unknown-to-test label.
 Current options include doing nothing.
 Limitations are behavioral, not abstract.
-Offer fit check happens only after PULL.
-Report format includes PULL, demand score, quotes, red flags, and transcript.
+Call mode and participant signal use are explicit.
+Offer fit check happens only after PULL and demand recap, unless `yolo-demo-if-no-pull` is explicitly configured.
+Close ask, if enabled, has a concrete ask and requires demand-fit plus supply-fit.
+Pilot-only participants are not counted as demand validation.
+Report format includes PULL, demand score, offer fit, close outcome, quotes, red flags, and transcript.
 ```
 
 If the setup fails, do not generate the interview skill silently. Tell the founder what is missing and ask the next highest-leverage question.
@@ -200,6 +213,7 @@ Each config includes:
 - `demand_hypothesis`
 - `icp`
 - `pull`
+- `call`
 - `offer`
 - `interview_rules`
 - `reporting`
@@ -245,6 +259,8 @@ Useful synthesis output:
 - Ask one founder question at a time when collecting setup.
 - Prefer recent behavior over opinions.
 - Do not generate from ICPs that cannot be checked in a few questions without an explicit warning.
-- Do not let a late offer-fit check contaminate demand discovery.
+- Do not let a late offer fit check contaminate demand discovery.
+- Do not ask for a purchase, paid pilot, or next step unless demand-fit and supply-fit are both present.
+- If there is no PULL, the participant skill should make that safe, route to a better ICP, and record the miss instead of rescuing the hypothesis.
 - Keep version history append-only. New understanding creates a new config version.
 - Preserve uncertainty. Use `observed`, `inferred`, and `missing` labels in reports.

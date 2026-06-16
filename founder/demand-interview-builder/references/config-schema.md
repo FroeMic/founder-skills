@@ -78,10 +78,34 @@ pull:
     red_flags:
       - "Current workflow is good enough and trusted."
 
+call:
+  mode: "pre_pmf_sales" # "pure_discovery" | "pre_pmf_sales"
+  participant_signal_use: "demand_evidence" # "demand_evidence" | "adjacent_learning" | "pilot_only"
+  opener:
+    ask_role_and_current_work: true
+    ask_why_took_call: true
+    align_agenda: true
+    screener_style: "woven_light" # "woven_light" | "explicit"
+  demand_recap_required: true
+  no_pull_path: "route_or_end" # "route_or_end" | "yolo-demo-if-no-pull"
+  offer_fit:
+    mode: "after-demand-recap" # "never" | "after-demand-recap" | "yolo-demo-if-no-pull"
+    minimum_bar: "Strong or adjacent ICP fit and at least inferred PULL."
+    max_description_seconds: 90
+    max_demo_minutes: 3
+    fit_check_question: "Does this conceptually fit what you are trying to do?"
+  close_ask:
+    mode: "next_step" # "none" | "next_step" | "paid_pilot" | "purchase"
+    require_demand_fit: true
+    require_offer_fit: true
+    ask_text: "If this fits, would it make sense to schedule a focused follow-up where we try this on one real client follow-up workflow?"
+    if_no_or_unsure: "Ask what would need to be true for this to be worth a next step."
+
 offer:
-  offer_fit_mode: "after-pull" # "never" | "after-pull"
   plain_language_label: "client commitment tracker"
   smallest_offer_description: "A lightweight system that turns client calls and notes into a reliable next-action list without forcing a full CRM migration."
+  unblocked_life_description: "Instead of manually reconciling notes, inboxes, and reminders after each call, the consultant leaves with one trusted next-action list."
+  demo_assets_or_screens: []
   claims_not_allowed:
     - "This will save you hours every week."
     - "This uses AI to solve follow-up."
@@ -175,7 +199,8 @@ Allowed in the generated skill:
 - Demand hypothesis summary.
 - ICP screeners and disqualifiers.
 - PULL hypotheses needed to guide the interviewer.
-- Offer boundary and smallest offer description.
+- Call mode, participant signal use, offer fit mode, and close ask.
+- Offer boundary, smallest offer description, and optional demo limit.
 - Reporting requirements.
 
 Never include:
@@ -196,6 +221,7 @@ Template placeholder map:
 {{DEMAND_HYPOTHESIS_YAML}} -> public demand_hypothesis block, indented two spaces
 {{ICP_YAML}}              -> public icp block, indented two spaces
 {{PULL_YAML}}             -> public pull block, indented two spaces
+{{CALL_YAML}}             -> public call block, indented two spaces
 {{OFFER_YAML}}            -> public offer block, indented two spaces
 {{REPORTING_YAML}}        -> public reporting block, indented two spaces
 ```

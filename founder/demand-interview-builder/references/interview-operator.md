@@ -4,7 +4,7 @@ Use these standards when generating or revising a participant interview skill.
 
 ## Interview Goal
 
-The participant interview skill exists to understand whether the problem is real, not to sell the product.
+The participant interview skill exists to understand whether the problem is real. If configured as a pre-PMF sales call, it may also test whether the founder's offer fits and ask for a concrete next step or commitment.
 
 Good output answers:
 
@@ -14,6 +14,7 @@ Good output answers:
 - What options do they use today?
 - Where do those options fail?
 - Does the founder's offer fit after PULL is understood?
+- If a close ask was made, did the participant exert real energy toward a next step?
 
 ## Interview Posture
 
@@ -22,6 +23,38 @@ Be direct, warm, and non-salesy. The participant should feel listened to, not qu
 Use question families, not rigid scripts. Follow concrete incidents over the prepared order. If the participant gives a real recent example, stay with it until the workflow, consequence, and options are clear.
 
 Never treat politeness as validation.
+
+Make it easy for the participant to say there is no fit. A clean "not a priority" is useful evidence.
+
+## Call Modes
+
+Read `call.mode` and `call.participant_signal_use` before starting.
+
+```text
+pure_discovery
+  Fill PULL, route if no fit, do not introduce the offer.
+
+pre_pmf_sales
+  Fill PULL first.
+  Play back demand.
+  If demand-fit exists, introduce the smallest offer.
+  If supply-fit exists and close_ask is enabled, ask for the configured commitment.
+```
+
+If `call.participant_signal_use` is `pilot_only`, run the configured call mode normally, but mark all demand conclusions as pilot-only and do not count the participant as demand validation.
+
+Never use a cofounder, teammate, investor, or financially aligned person as demand validation. They can still be useful when `participant_signal_use` is `pilot_only`.
+
+## Opening And Light Screening
+
+Prefer a warm opener over an interrogation:
+
+- Ask about their role and what they are working on.
+- Ask why they took the call or what would make the conversation useful.
+- Align on a rough agenda.
+- Ask permission to understand their context before discussing the offer.
+
+Weave ICP checks into this opening. Do not spend the first several turns on qualification unless the config explicitly requests `screener_style: explicit`.
 
 ## ICP Fit Paths
 
@@ -73,17 +106,17 @@ Push until the answer is a concrete project, not a category-level complaint.
 
 ### Unavoidable
 
-Goal: understand urgency, stakes, and consequences.
+Goal: understand priority, urgency, stakes, and consequences.
 
 Use questions like:
 
-- What happens if this does not get solved?
-- Why did it matter then?
+- Is this something you are actually trying to change soon, or could it sit for six months?
+- Why did it matter then instead of staying a background annoyance?
 - Who noticed or would have noticed?
 - What gets worse if this keeps happening?
 - What made this a now problem instead of background annoyance?
 
-Red flag: the participant says it is annoying but cannot name a consequence.
+Red flag: the participant says it is annoying but would not prioritize changing it.
 
 ### List of Options
 
@@ -125,24 +158,54 @@ Do not use these as primary evidence:
 
 If a similar question is asked during offer fit, label it as reaction, not demand evidence.
 
+## Demand Recap
+
+Before introducing any offer, play back the participant's PULL:
+
+```text
+It sounds like you are trying to accomplish <project>, because <unavoidable>, and today you are considering or using <options>, but those break because <limitations>. What am I missing?
+```
+
+If important fields are missing, label them as missing and ask one follow-up. If PULL still does not exist, do not rescue the hypothesis. Route, end, or run `yolo-demo-if-no-pull` only if explicitly configured.
+
 ## Offer Fit Check
 
 Default order:
 
 ```text
 1. PULL demand discovery
-2. Introduce the smallest offer
-3. See if it fits
-4. Address fit questions
+2. Demand recap
+3. Introduce the smallest offer
+4. See if it fits
+5. Address fit questions
 ```
 
-Do not introduce the offer before PULL. If the config says `offer_fit_mode: never`, do not introduce it at all. If the participant asks early and refusing would break trust, say:
+Do not introduce the offer before PULL. If the config says `call.offer_fit.mode: never`, do not introduce it at all. If the participant asks early and refusing would break trust, say:
 
 ```text
 I can share the concept, but first I want to understand how this works for you today so I do not lead your answers. Two more questions, then I will introduce the smallest version.
 ```
 
-The offer description should be the smallest possible description or demo that helps evaluate fit. Avoid product tours.
+The offer description should be the smallest possible description that fits the participant's PULL. Use this shape when the config gives enough information:
+
+```text
+We are a <plain_language_label> that helps <ICP> do <project> without <limitations>.
+```
+
+Then describe their unblocked life using `offer.unblocked_life_description`, if present. Keep the description to `call.offer_fit.max_description_seconds`. Demos are optional and must stay under `call.offer_fit.max_demo_minutes`; show the fewest screens needed to test fit. Avoid setup flows, settings pages, and product tours.
+
+After the offer, ask the configured fit-check question. Make it acceptable to say no.
+
+## Close Ask
+
+Only ask for a next step, paid pilot, or purchase when all are true:
+
+- `call.mode` is `pre_pmf_sales`.
+- `call.close_ask.mode` is not `none`.
+- Demand-fit is at least inferred.
+- The participant says the offer conceptually fits, or asks for the next step.
+
+Use `call.close_ask.ask_text` when present. If they say no or hesitate, do not pressure them. Ask what would need to be true for this to be worth a next step and record the answer.
 
 ## Demand Reality Score
 
@@ -158,6 +221,7 @@ Strong evidence:
 - Clear owner or buyer.
 - Active search or attempted switch.
 - Participant asks for follow-up, access, or introduction.
+- Participant accepts or negotiates the configured close ask.
 
 Weak evidence:
 
@@ -167,6 +231,7 @@ Weak evidence:
 - No consequence.
 - Problem belongs to someone else.
 - Likes the offer only after the offer fit check.
+- Refuses any next step after saying the offer sounds good.
 - Not ICP-fit.
 
 Suggested scoring:
@@ -185,6 +250,9 @@ Every report must include:
 
 ```markdown
 # Interview Report
+
+Call mode:
+Participant signal use:
 
 ## ICP Fit
 Strong / Adjacent / Weak
@@ -218,10 +286,16 @@ Switch trigger:
 ## Red Flags
 
 ## Offer Fit
-Shown: yes/no
+Introduced: yes/no
 Reaction:
 Objections:
 Next-step signal:
+
+## Close Ask
+Mode:
+Asked: yes/no
+Response:
+Outcome:
 
 ## Hypotheses Updated
 
