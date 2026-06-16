@@ -1,4 +1,4 @@
 interface:
   display_name: "Demand Interview Builder"
-  short_description: "Compile PULL-based user interview skills"
-  default_prompt: "Use $demand-interview-builder to turn my startup idea into a versioned respondent interview skill."
+  short_description: "Build PULL-based user interview skills"
+  default_prompt: "Use $demand-interview-builder to turn my startup idea into a versioned customer interview skill."

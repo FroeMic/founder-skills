@@ -21,10 +21,12 @@ changelog:
     - field: "initial"
       from: null
       to: "v001"
-      why: "Created the first respondent interview skill for this idea space."
+      why: "Created the first participant interview skill for this demand hypothesis."
 
-idea_space:
-  one_liner: "Help independent consultants avoid dropping client follow-ups."
+demand_hypothesis:
+  plain_english: "We want to learn whether independent consultants need help avoiding dropped client follow-ups."
+  who_to_interview_first: "Independent consultants who own client delivery and run several client calls each week."
+  what_is_happening: "Client commitments are getting scattered across notes, email, Slack, and task tools."
   testing_now:
     - "Whether missed follow-up is an urgent enough problem."
     - "Whether consultants already use painful workarounds."
@@ -36,7 +38,7 @@ idea_space:
 
 icp:
   label: "Solo RevOps consultant with retained clients"
-  real_person_exemplar: "Anonymized: solo RevOps consultant with 8 active clients and 10+ calls/week."
+  real_person_example: "Anonymized: solo RevOps consultant with 8 active clients and 10+ calls/week."
   screeners:
     role_or_responsibility: "Owns client delivery and follow-up."
     situation: "Runs multiple client meetings weekly and tracks commitments personally."
@@ -56,7 +58,7 @@ pull:
     existing_evidence: "Founder has heard consultants mention missed action items after calls."
     interview_goal: "Find the last real incident and the progress they were trying to make."
     red_flags:
-      - "Respondent cannot name a recent incident."
+      - "Participant cannot name a recent incident."
   unavoidable:
     hypothesis: "Missed follow-ups damage trust, renewals, or referrals."
     existing_evidence: null
@@ -77,9 +79,9 @@ pull:
       - "Current workflow is good enough and trusted."
 
 offer:
-  reveal_mode: "after-pull" # "never" | "after-pull"
+  offer_fit_mode: "after-pull" # "never" | "after-pull"
   plain_language_label: "client commitment tracker"
-  smallest_supply_reveal: "A lightweight system that turns client calls and notes into a reliable next-action list without forcing a full CRM migration."
+  smallest_offer_description: "A lightweight system that turns client calls and notes into a reliable next-action list without forcing a full CRM migration."
   claims_not_allowed:
     - "This will save you hours every week."
     - "This uses AI to solve follow-up."
@@ -104,8 +106,8 @@ interview_rules:
     - "Count non-ICP answers as validation."
 
 private_founder_notes:
-  # Optional. Never compile this field into the respondent skill.
-  - "Internal worries, strategy, or interpretations that would lead the respondent."
+  # Optional. Never include this field in the participant interview skill.
+  - "Internal worries, strategy, or interpretations that would lead the participant."
 
 reporting:
   produce_report: true
@@ -115,7 +117,7 @@ reporting:
   consent_line: "I will produce a short report and cleaned transcript/notes appendix for the founder. Please do not share confidential information."
 
 quality_gate:
-  status: "passed" # "passed" | "compiled-with-warning"
+  status: "passed" # "passed" | "generated-with-warning"
   warnings: []
 ```
 
@@ -138,7 +140,7 @@ changelog:
     - field: "offer.plain_language_label"
       from: "AI follow-up assistant"
       to: "client commitment tracker"
-      why: "Respondents described the problem as dropped commitments; AI language led the witness."
+      why: "Participants described the problem as dropped commitments; AI language led the witness."
 ```
 
 Rules:
@@ -163,35 +165,35 @@ Maintain `.vertical/demand-interview-builder/projects/<project-slug>/project.jso
 
 The index can be rebuilt from configs. Do not rely on it as the only history.
 
-## Public vs Private Compile Rules
+## Public vs Private Generation Rules
 
-The compiled respondent skill is sendable. Treat it as public to the interview partner.
+The generated participant interview skill is sendable. Treat it as public to the interview partner.
 
-Allowed in compiled skill:
+Allowed in the generated skill:
 
 - Project name and config version.
-- Idea-space summary.
+- Demand hypothesis summary.
 - ICP screeners and disqualifiers.
 - PULL hypotheses needed to guide the interviewer.
-- Offer boundary and smallest supply reveal.
+- Offer boundary and smallest offer description.
 - Reporting requirements.
 
-Never compile:
+Never include:
 
 - `private_founder_notes`.
 - Founder anxieties, strategy, or fundraising context.
 - Claims the founder cannot substantiate.
-- Any personal data about a real-person exemplar unless explicitly anonymized.
-- Changelog rationale that would lead the respondent.
+- Any personal data about a real person example unless explicitly anonymized.
+- Changelog rationale that would lead the participant.
 
 Template placeholder map:
 
 ```text
-{{RESPONDENT_SKILL_NAME}} -> lowercase hyphenated skill name, usually <project-slug>-interview
+{{INTERVIEW_SKILL_NAME}}   -> lowercase hyphenated skill name, usually <project-slug>-interview
 {{PROJECT_SLUG}}          -> project.slug
 {{PROJECT_NAME}}          -> project.name
 {{CONFIG_VERSION}}        -> version
-{{IDEA_SPACE_YAML}}       -> public idea_space block, indented two spaces
+{{DEMAND_HYPOTHESIS_YAML}} -> public demand_hypothesis block, indented two spaces
 {{ICP_YAML}}              -> public icp block, indented two spaces
 {{PULL_YAML}}             -> public pull block, indented two spaces
 {{OFFER_YAML}}            -> public offer block, indented two spaces

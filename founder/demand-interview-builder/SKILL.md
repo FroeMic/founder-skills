@@ -1,13 +1,13 @@
 ---
 name: demand-interview-builder
-description: "Use when the founder wants to create, revise, or compile respondent-facing customer interview skills for early demand discovery. Use for PULL-based user interviews, ICP specificity, demand validation, customer discovery, interview project versioning, or turning an idea-space into a sendable SKILL.md that another agent can run with an interview participant."
+description: "Use when the founder wants to create, revise, or generate customer interview skills that another agent can run with an interview participant. Use for PULL-based user interviews, ICP specificity, demand validation, customer discovery, interview project versioning, or turning a startup idea into a sendable SKILL.md."
 ---
 
 # Demand Interview Builder
 
-Build versioned, respondent-facing interview skills that test demand reality. This skill interviews the founder, forces specificity, writes a full config snapshot, and compiles a portable `SKILL.md` for interview participants.
+Build versioned interview skills for customer conversations that test whether the problem is real. This skill interviews the founder, forces specificity, writes a full config snapshot, and generates a portable `SKILL.md` for interview participants.
 
-The durable state lives in the project where this skill is used:
+Saved project history lives in the project where this skill is used:
 
 ```text
 .vertical/demand-interview-builder/
@@ -35,15 +35,15 @@ Core standard:
 
 ```text
 The builder skill makes the founder specific.
-The compiled skill makes the respondent behavioral.
+The generated interview skill keeps the participant grounded in what actually happened.
 The report makes the evidence auditable.
 ```
 
-Push for concrete situations, recent behavior, current alternatives, and consequences. Do not compile an interview skill from abstract ICPs or polished product claims.
+Push for concrete situations, recent behavior, current alternatives, and consequences. Do not generate an interview skill from abstract ICPs or polished product claims.
 
-Use Rob Snyder's PULL framework as the demand-side spine:
+Use Rob Snyder's PULL framework as the interview spine:
 
-- **Project** — what progress the respondent is trying to make.
+- **Project** — what progress the participant is trying to make.
 - **Unavoidable** — why this matters now, what happens if it is not solved, who notices, and what gets worse.
 - **List of Options** — what they actually use or consider today, including doing nothing.
 - **Limitations** — where those options break, become costly, or remain tolerated only because there is no better fit.
@@ -55,12 +55,12 @@ If the runtime has a structured question tool, use it for founder decisions that
 Good decision gates:
 
 - Create a new interview project or revise an existing one.
-- Narrow an ICP now or compile with a warning.
-- Keep the respondent interview pure discovery or reveal the offer after PULL.
+- Narrow an ICP now or generate with a warning.
+- Keep the participant interview focused only on learning or include an offer fit check after PULL.
 - Save the current setup as the next version.
-- Compile the respondent skill from the saved config.
+- Generate the participant interview skill from the saved config.
 
-The compiled respondent skill must be runtime-neutral. It should ask one conversational question at a time and must not require `AskUserQuestion`.
+The generated participant interview skill must be runtime-neutral. It should ask one conversational question at a time and must not require `AskUserQuestion`.
 
 ## Workflow
 
@@ -68,19 +68,23 @@ The compiled respondent skill must be runtime-neutral. It should ask one convers
 
 Check `.vertical/demand-interview-builder/projects/`.
 
-If projects exist, list them with current version and ask whether to revise one or create a new project. If no project exists, create a new slug from the idea-space, lowercase hyphenated.
+If projects exist, list them with current version and ask whether to revise one or create a new project. If no project exists, create a new slug from the startup idea, lowercase hyphenated.
 
 Read the latest config before asking questions. Use it to skip already-set fields and focus on what changed.
 
-### Phase 1: Idea Space
+### Phase 1: Demand Hypothesis
 
-Capture one plain-English sentence:
+Start in normal language:
 
 ```text
-We are exploring whether <specific people> need help with <job / problem / progress>.
+Let's start with the Demand Hypothesis.
+
+In one plain-English sentence: who should we interview first, and what problem or progress are we testing?
 ```
 
-Do not accept product copy as the idea space. If the founder says "AI assistant for consultants", ask what demand-side situation it is meant to help with.
+Capture the answer as `demand_hypothesis`.
+
+Do not accept product copy. If the founder says "AI assistant for consultants", ask what is happening in the consultant's world when the problem appears.
 
 Also capture boundaries:
 
@@ -88,9 +92,9 @@ Also capture boundaries:
 - What is explicitly not being tested.
 - What the founder currently believes but is unsure about.
 
-### Phase 2: ICP Specificity
+### Phase 2: Who Exactly
 
-Force the ICP into a screenable situation, not a broad persona.
+Force the ICP (ideal customer profile) into a situation you can check in a few questions, not a broad persona.
 
 Minimum ICP fields:
 
@@ -101,7 +105,7 @@ Minimum ICP fields:
 - Ownership: user, buyer, recommender, or adjacent observer.
 - Disqualifiers.
 
-Require one real-person exemplar when possible. It may be anonymized, but it should be based on one actual person or observed workflow.
+Ask for one real person when possible. They may be anonymized, but the description should be based on one actual person or observed workflow.
 
 Pushback patterns:
 
@@ -120,34 +124,34 @@ For each field, capture:
 
 - Founder hypothesis.
 - Evidence the founder already has, if any.
-- What the respondent interview should discover.
+- What the participant interview should discover.
 - Red flags that would weaken the hypothesis.
 
 If a field is weak, name it directly and ask a sharper follow-up. Do not smooth over gaps.
 
-### Phase 4: Offer Boundary
+### Phase 4: Offer Fit Check
 
-Define the supply side only after demand-side hypotheses are clear.
+Define whether the interview skill may introduce the smallest offer only after the problem is understood.
 
 Capture:
 
 - Offer label in plain language.
-- Smallest supply reveal the respondent skill may show after PULL.
-- Claims the respondent skill must not make.
+- Smallest offer description or demo the participant skill may introduce after PULL.
+- Claims the participant skill must not make.
 - Terms to avoid because they lead the witness.
 - Whether to run pure discovery only or include a late fit check.
 
-Default: do not reveal the offer until PULL is complete.
+Default: do not introduce the offer until PULL is complete.
 
 ### Phase 5: Reporting and Consent
 
-Decide what the respondent-facing skill should return:
+Decide what the participant interview skill should return:
 
 - `report.md` — synthesized PULL and demand reality.
 - `transcript.md` — cleaned transcript or interview notes.
 - `meta.json` — non-sensitive run metadata.
 
-The respondent skill must disclose this at the start of the interview and tell the participant not to share confidential information.
+The participant interview skill must disclose this at the start of the interview and tell the participant not to share confidential information.
 
 First version default: no remote telemetry. Local `meta.json` is fine.
 
@@ -156,22 +160,22 @@ First version default: no remote telemetry. Local `meta.json` is fine.
 Before writing a version, run this gate:
 
 ```text
-ICP is screenable in 3-5 questions.
+ICP can be checked in 3-5 questions.
 ICP includes situation, trigger, and disqualifiers.
 PULL has at least one concrete hypothesis per field.
 Current options include doing nothing.
 Limitations are behavioral, not abstract.
-Offer reveal is bounded and comes after PULL.
+Offer fit check happens only after PULL.
 Report format includes PULL, demand score, quotes, red flags, and transcript.
 ```
 
-If the setup fails, do not compile silently. Tell the founder what is missing and ask the next highest-leverage question.
+If the setup fails, do not generate the interview skill silently. Tell the founder what is missing and ask the next highest-leverage question.
 
-If the founder insists on compiling anyway, allow it only with an explicit warning in the config:
+If the founder insists on generating it anyway, allow that only with an explicit warning in the config:
 
 ```yaml
 quality_gate:
-  status: "compiled-with-warning"
+  status: "generated-with-warning"
   warnings:
     - "ICP trigger is still broad."
 ```
@@ -193,7 +197,7 @@ Each config includes:
 - `version`
 - `supersedes`
 - `changelog`
-- `idea_space`
+- `demand_hypothesis`
 - `icp`
 - `pull`
 - `offer`
@@ -203,14 +207,14 @@ Each config includes:
 
 Also update `project.json` as a convenience index only. The versioned configs are the source of truth.
 
-### Phase 8: Compile Respondent Skill
+### Phase 8: Generate Participant Interview Skill
 
-Before compiling, read:
+Before generating the interview skill, read:
 
 - `references/interview-operator.md`
-- `assets/respondent-skill-template.md`
+- `assets/participant-interview-template.md`
 
-Compile by replacing the template placeholders with sanitized public config from the saved version. Do not include private founder notes, internal doubts, or strategy that would lead the respondent.
+Generate the interview skill by replacing the template placeholders with sanitized public config from the saved version. Do not include private founder notes, internal doubts, or strategy that would lead the participant.
 
 Write:
 
@@ -218,11 +222,11 @@ Write:
 .vertical/demand-interview-builder/projects/<project-slug>/compiled/vNNN/SKILL.md
 ```
 
-After compiling, tell the founder:
+After generating it, tell the founder:
 
 - Config path.
 - Compiled skill path.
-- What to send to the respondent.
+- What to send to the interview participant.
 - Where returned reports should be stored.
 
 ### Phase 9: Optional Report Synthesis
@@ -233,14 +237,14 @@ Useful synthesis output:
 
 - Which PULL hypotheses strengthened or weakened.
 - Which ICP screeners need tightening.
-- Exact respondent language to carry forward.
+- Exact participant language to carry forward.
 - Recommended next config change.
 
 ## Important Rules
 
 - Ask one founder question at a time when collecting setup.
 - Prefer recent behavior over opinions.
-- Do not compile from unscreenable ICPs without an explicit warning.
+- Do not generate from ICPs that cannot be checked in a few questions without an explicit warning.
 - Do not let a late offer-fit check contaminate demand discovery.
 - Keep version history append-only. New understanding creates a new config version.
 - Preserve uncertainty. Use `observed`, `inferred`, and `missing` labels in reports.

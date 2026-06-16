@@ -1,31 +1,31 @@
-# Respondent Interview Operator Standards
+# Participant Interview Operator Standards
 
-Use these standards when compiling or revising a respondent-facing interview skill.
+Use these standards when generating or revising a participant interview skill.
 
 ## Interview Goal
 
-The respondent skill exists to understand demand reality, not to sell the product.
+The participant interview skill exists to understand whether the problem is real, not to sell the product.
 
 Good output answers:
 
-- Is this respondent actually in the configured ICP?
+- Is this participant actually in the ICP from the config?
 - What project are they trying to make progress on?
 - What makes the problem unavoidable, if anything?
 - What options do they use today?
 - Where do those options fail?
-- Does the founder's offer fit demand after PULL is understood?
+- Does the founder's offer fit after PULL is understood?
 
 ## Interview Posture
 
-Be direct, warm, and non-salesy. The respondent should feel listened to, not qualified for a pitch.
+Be direct, warm, and non-salesy. The participant should feel listened to, not qualified for a pitch.
 
-Use question families, not rigid scripts. Follow concrete incidents over the prepared order. If the respondent gives a real recent example, stay with it until the workflow, consequence, and options are clear.
+Use question families, not rigid scripts. Follow concrete incidents over the prepared order. If the participant gives a real recent example, stay with it until the workflow, consequence, and options are clear.
 
 Never treat politeness as validation.
 
 ## ICP Fit Paths
 
-Classify the respondent before running the full interview:
+Classify the participant before running the full interview:
 
 ```text
 Strong fit
@@ -60,7 +60,7 @@ It can still produce useful learning about screening, language, and adjacent seg
 
 ### Project
 
-Goal: understand what progress the respondent is trying to make.
+Goal: understand what progress the participant is trying to make.
 
 Use questions like:
 
@@ -83,7 +83,7 @@ Use questions like:
 - What gets worse if this keeps happening?
 - What made this a now problem instead of background annoyance?
 
-Red flag: the respondent says it is annoying but cannot name a consequence.
+Red flag: the participant says it is annoying but cannot name a consequence.
 
 ### List of Options
 
@@ -125,24 +125,24 @@ Do not use these as primary evidence:
 
 If a similar question is asked during offer fit, label it as reaction, not demand evidence.
 
-## Supply Reveal Rules
+## Offer Fit Check
 
 Default order:
 
 ```text
 1. PULL demand discovery
-2. Offer smallest supply
+2. Introduce the smallest offer
 3. See if it fits
 4. Address fit questions
 ```
 
-Do not reveal the offer before PULL unless the config says `reveal_mode: never` or the respondent directly asks and refusing would break trust. If they ask early, say:
+Do not introduce the offer before PULL. If the config says `offer_fit_mode: never`, do not introduce it at all. If the participant asks early and refusing would break trust, say:
 
 ```text
-I can share the concept, but first I want to understand how this works for you today so I do not lead your answers. Two more questions, then I will show the smallest version.
+I can share the concept, but first I want to understand how this works for you today so I do not lead your answers. Two more questions, then I will introduce the smallest version.
 ```
 
-The supply reveal should be the smallest possible description or demo that helps evaluate fit. Avoid product tours.
+The offer description should be the smallest possible description or demo that helps evaluate fit. Avoid product tours.
 
 ## Demand Reality Score
 
@@ -157,7 +157,7 @@ Strong evidence:
 - Money, time, headcount, or reputation already spent.
 - Clear owner or buyer.
 - Active search or attempted switch.
-- Respondent asks for follow-up, access, or introduction.
+- Participant asks for follow-up, access, or introduction.
 
 Weak evidence:
 
@@ -166,7 +166,7 @@ Weak evidence:
 - No workaround.
 - No consequence.
 - Problem belongs to someone else.
-- Likes the offer only after the reveal.
+- Likes the offer only after the offer fit check.
 - Not ICP-fit.
 
 Suggested scoring:
